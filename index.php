@@ -170,13 +170,12 @@ table td{
 
     <div class="logo">
         MYEGO
-    </div>
+    </div>  
 
     <div class="menu">
-        <a href="#">🏠 Dashboard</a>
-        <a href="#">🧴 Data Parfum</a>
-        <a href="#">📦 Stok Produk</a>
-        <a href="#">📊 Laporan</a>
+        <a href="index.php" class="active">🏠 Dashboard</a>
+        <a href="katalog.php">📦 Katalog Parfum</a>
+        <a href="laporan.php">📊 Laporan Pemasukan</a>
     </div>
 
 </div>
