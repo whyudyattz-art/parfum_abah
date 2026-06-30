@@ -15,11 +15,60 @@ if(isset($_POST['simpan'])){
     $harga = mysqli_real_escape_string($koneksi, $_POST['harga']);
     $stok  = mysqli_real_escape_string($koneksi, $_POST['stok']);
 
+    $gambar = 'default.jpg';
+
+    // Cek apakah file gambar diunggah
+    if(isset($_FILES['gambar']) && $_FILES['gambar']['error'] === 0) {
+        $nama_file = $_FILES['gambar']['name'];
+        $ukuran_file = $_FILES['gambar']['size'];
+        $tmp_name = $_FILES['gambar']['tmp_name'];
+
+        $ekstensiGambarValid = ['jpg', 'jpeg', 'png', 'webp'];
+        $ekstensiGambar = explode('.', $nama_file);
+        $ekstensiGambar = strtolower(end($ekstensiGambar));
+
+        if (!in_array($ekstensiGambar, $ekstensiGambarValid)) {
+            echo "
+            <script>
+                alert('Format gambar tidak valid! Harus JPG, JPEG, PNG, atau WEBP.');
+                window.history.back();
+            </script>
+            ";
+            exit;
+        }
+
+        if ($ukuran_file > 2097152) { // 2MB limit
+            echo "
+            <script>
+                alert('Ukuran gambar terlalu besar! Maksimal 2MB.');
+                window.history.back();
+            </script>
+            ";
+            exit;
+        }
+
+        // Buat nama file unik
+        $namaFileBaru = uniqid() . '.' . $ekstensiGambar;
+        $tujuan = 'uploads/' . $namaFileBaru;
+
+        if (move_uploaded_file($tmp_name, $tujuan)) {
+            $gambar = $namaFileBaru;
+        } else {
+            echo "
+            <script>
+                alert('Gagal mengunggah gambar ke server.');
+                window.history.back();
+            </script>
+            ";
+            exit;
+        }
+    }
+
     $query = mysqli_query($koneksi,"
         INSERT INTO parfum
-        (nama_parfum, merek, harga, stok)
+        (nama_parfum, merek, harga, stok, gambar)
         VALUES
-        ('$nama','$merek','$harga','$stok')
+        ('$nama','$merek','$harga','$stok','$gambar')
     ");
 
     if($query){
@@ -151,7 +200,7 @@ input:focus{
 
         <h2>Tambah Produk Parfum</h2>
 
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
 
             <div class="form-group">
                 <label>Nama Parfum</label>
@@ -171,6 +220,12 @@ input:focus{
             <div class="form-group">
                 <label>Stok</label>
                 <input type="number" name="stok" required>
+            </div>
+
+            <div class="form-group">
+                <label>Foto Parfum</label>
+                <input type="file" name="gambar" accept="image/*">
+                <small style="color:#666; font-size: 12px; display: block; margin-top: 5px;">Format: JPG, JPEG, PNG, WEBP. Maks 2MB. Kosongkan jika ingin menggunakan gambar default.</small>
             </div>
 
             <button type="submit" name="simpan" class="btn btn-simpan">

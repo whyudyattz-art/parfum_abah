@@ -22,17 +22,75 @@ if(!$d){
 
 if(isset($_POST['update'])){
 
-    $nama  = $_POST['nama'];
-    $merek = $_POST['merek'];
-    $harga = $_POST['harga'];
-    $stok  = $_POST['stok'];
+    $nama  = mysqli_real_escape_string($koneksi, $_POST['nama']);
+    $merek = mysqli_real_escape_string($koneksi, $_POST['merek']);
+    $harga = mysqli_real_escape_string($koneksi, $_POST['harga']);
+    $stok  = mysqli_real_escape_string($koneksi, $_POST['stok']);
+    
+    $gambar = $d['gambar']; // Keep old image by default
+
+    // Cek jika ada file gambar baru diunggah
+    if(isset($_FILES['gambar']) && $_FILES['gambar']['error'] === 0) {
+        $nama_file = $_FILES['gambar']['name'];
+        $ukuran_file = $_FILES['gambar']['size'];
+        $tmp_name = $_FILES['gambar']['tmp_name'];
+
+        $ekstensiGambarValid = ['jpg', 'jpeg', 'png', 'webp'];
+        $ekstensiGambar = explode('.', $nama_file);
+        $ekstensiGambar = strtolower(end($ekstensiGambar));
+
+        if (!in_array($ekstensiGambar, $ekstensiGambarValid)) {
+            echo "
+            <script>
+                alert('Format gambar tidak valid! Harus JPG, JPEG, PNG, atau WEBP.');
+                window.history.back();
+            </script>
+            ";
+            exit;
+        }
+
+        if ($ukuran_file > 2097152) { // 2MB limit
+            echo "
+            <script>
+                alert('Ukuran gambar terlalu besar! Maksimal 2MB.');
+                window.history.back();
+            </script>
+            ";
+            exit;
+        }
+
+        // Buat nama file unik baru
+        $namaFileBaru = uniqid() . '.' . $ekstensiGambar;
+        $tujuan = 'uploads/' . $namaFileBaru;
+
+        if (move_uploaded_file($tmp_name, $tujuan)) {
+            // Hapus gambar lama jika ada dan bukan gambar bawaan/default
+            $default_images = ['default.jpg', 'baccarat.jpg', 'black_opium.jpg', 'sauvage.jpg', 'aventus.jpg'];
+            if (!empty($d['gambar']) && !in_array($d['gambar'], $default_images)) {
+                $old_file = 'uploads/' . $d['gambar'];
+                if (file_exists($old_file)) {
+                    unlink($old_file);
+                }
+            }
+            $gambar = $namaFileBaru;
+        } else {
+            echo "
+            <script>
+                alert('Gagal mengunggah gambar ke server.');
+                window.history.back();
+            </script>
+            ";
+            exit;
+        }
+    }
 
     $update = mysqli_query($koneksi,"
     UPDATE parfum SET
     nama_parfum='$nama',
     merek='$merek',
     harga='$harga',
-    stok='$stok'
+    stok='$stok',
+    gambar='$gambar'
     WHERE id='$id'
     ");
 
@@ -151,7 +209,16 @@ input:focus{
 
         <h2>Edit Produk Parfum</h2>
 
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
+
+            <div class="form-group" style="text-align: center; margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 10px;">Foto Saat Ini</label>
+                <?php if(!empty($d['gambar']) && file_exists('uploads/' . $d['gambar'])): ?>
+                    <img src="uploads/<?php echo $d['gambar']; ?>" alt="Foto Parfum" style="width: 120px; height: 120px; object-fit: cover; border-radius: 10px; border: 2px solid gold; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: inline-block;">
+                <?php else: ?>
+                    <div style="width: 120px; height: 120px; line-height: 120px; background: #e9ecef; border-radius: 10px; display: inline-block; font-size: 50px; text-align: center;">🧴</div>
+                <?php endif; ?>
+            </div>
 
             <div class="form-group">
                 <label>Nama Parfum</label>
@@ -183,6 +250,12 @@ input:focus{
                 name="stok"
                 value="<?php echo $d['stok']; ?>"
                 required>
+            </div>
+
+            <div class="form-group">
+                <label>Ganti Foto Parfum</label>
+                <input type="file" name="gambar" accept="image/*">
+                <small style="color:#666; font-size: 12px; display: block; margin-top: 5px;">Format: JPG, JPEG, PNG, WEBP. Maks 2MB. Biarkan kosong jika tidak ingin mengubah foto.</small>
             </div>
 
             <button type="submit"

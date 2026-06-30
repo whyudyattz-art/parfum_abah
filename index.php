@@ -143,6 +143,7 @@ table th{
 table td{
     padding:12px;
     border-bottom:1px solid #ddd;
+    vertical-align: middle;
 }
 
 .edit{
@@ -229,12 +230,13 @@ table td{
         <table>
 
             <tr>
-                <th>No</th>
+                <th width="5%">No</th>
+                <th width="10%">Foto</th>
                 <th>Nama Parfum</th>
                 <th>Merek</th>
                 <th>Harga</th>
                 <th>Stok</th>
-                <th>Aksi</th>
+                <th width="15%">Aksi</th>
             </tr>
 
             <?php
@@ -244,7 +246,14 @@ table td{
 
             <tr>
                 <td><?php echo $no++; ?></td>
-                <td><?php echo $d['nama_parfum']; ?></td>
+                <td>
+                    <?php if(!empty($d['gambar']) && file_exists('uploads/' . $d['gambar'])): ?>
+                        <img src="uploads/<?php echo $d['gambar']; ?>" alt="<?php echo $d['nama_parfum']; ?>" style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px; border: 1px solid #ddd; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: block;">
+                    <?php else: ?>
+                        <div style="width: 50px; height: 50px; line-height: 50px; text-align: center; background: #e9ecef; border-radius: 8px; font-size: 24px;">🧴</div>
+                    <?php endif; ?>
+                </td>
+                <td><b><?php echo $d['nama_parfum']; ?></b></td>
                 <td><?php echo $d['merek']; ?></td>
                 <td>Rp <?php echo number_format($d['harga']); ?></td>
                 <td><?php echo $d['stok']; ?></td>

@@ -52,17 +52,39 @@ body{ background:#f5f7fb; }
     box-shadow: 0 8px 25px rgba(0,0,0,0.1);
 }
 
-.katalog-img {
-    width: 90px;
-    height: 90px;
-    background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
-    border-radius: 50%;
-    margin: 0 auto 20px;
+.katalog-img-container {
+    width: 100%;
+    height: 200px;
+    background: #fdfbfb;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 45px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.katalog-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.katalog-card:hover .katalog-img-container img {
+    transform: scale(1.1);
+}
+
+.katalog-placeholder {
+    font-size: 60px;
+    line-height: 200px;
+    background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .katalog-title {
@@ -130,8 +152,12 @@ body{ background:#f5f7fb; }
             while($d = mysqli_fetch_array($data_parfum)){
         ?>
         <div class="katalog-card">
-            <div class="katalog-img">
-                🧴
+            <div class="katalog-img-container">
+                <?php if(!empty($d['gambar']) && file_exists('uploads/' . $d['gambar'])): ?>
+                    <img src="uploads/<?php echo $d['gambar']; ?>" alt="<?php echo htmlspecialchars($d['nama_parfum']); ?>">
+                <?php else: ?>
+                    <div class="katalog-placeholder">🧴</div>
+                <?php endif; ?>
             </div>
             <div class="katalog-title"><?php echo htmlspecialchars($d['nama_parfum']); ?></div>
             <div class="katalog-brand"><?php echo htmlspecialchars($d['merek']); ?></div>

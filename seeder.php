@@ -24,16 +24,16 @@ echo "<br>";
 
 // 2. Input Data Parfum
 $data_parfum = [
-    ['Baccarat Rouge 540', 'Maison Francis Kurkdjian', 5000000, 10],
-    ['Black Opium', 'Yves Saint Laurent', 2500000, 15],
-    ['Sauvage', 'Dior', 3000000, 20],
-    ['Bleu de Chanel', 'Chanel', 2800000, 12],
-    ['Aventus', 'Creed', 6000000, 5],
-    ['English Pear & Freesia', 'Jo Malone', 2200000, 18],
-    ['Cloud', 'Ariana Grande', 1500000, 25],
-    ['Santal 33', 'Le Labo', 4500000, 8],
-    ['Tobacco Vanille', 'Tom Ford', 5500000, 7],
-    ['Daisy', 'Marc Jacobs', 1800000, 22]
+    ['Baccarat Rouge 540', 'Maison Francis Kurkdjian', 5000000, 10, 'baccarat.jpg'],
+    ['Black Opium', 'Yves Saint Laurent', 2500000, 15, 'black_opium.jpg'],
+    ['Sauvage', 'Dior', 3000000, 20, 'sauvage.jpg'],
+    ['Bleu de Chanel', 'Chanel', 2800000, 12, 'sauvage.jpg'],
+    ['Aventus', 'Creed', 6000000, 5, 'aventus.jpg'],
+    ['English Pear & Freesia', 'Jo Malone', 2200000, 18, 'default.jpg'],
+    ['Cloud', 'Ariana Grande', 1500000, 25, 'default.jpg'],
+    ['Santal 33', 'Le Labo', 4500000, 8, 'default.jpg'],
+    ['Tobacco Vanille', 'Tom Ford', 5500000, 7, 'black_opium.jpg'],
+    ['Daisy', 'Marc Jacobs', 1800000, 22, 'default.jpg']
 ];
 
 $inserted_count = 0;
@@ -43,11 +43,12 @@ foreach ($data_parfum as $parfum) {
     $merek = $parfum[1];
     $harga = $parfum[2];
     $stok = $parfum[3];
+    $gambar = $parfum[4];
 
     // Cek apakah parfum dengan nama yang sama sudah ada di database
     $cek_parfum = mysqli_query($koneksi, "SELECT * FROM parfum WHERE nama_parfum='$nama_parfum'");
     if (mysqli_num_rows($cek_parfum) == 0) {
-        $query_parfum = "INSERT INTO parfum (nama_parfum, merek, harga, stok) VALUES ('$nama_parfum', '$merek', '$harga', '$stok')";
+        $query_parfum = "INSERT INTO parfum (nama_parfum, merek, harga, stok, gambar) VALUES ('$nama_parfum', '$merek', '$harga', '$stok', '$gambar')";
         if(mysqli_query($koneksi, $query_parfum)){
             $inserted_count++;
         } else {
