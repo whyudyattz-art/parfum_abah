@@ -48,6 +48,16 @@ body{
     font-weight:bold;
     color:gold;
     margin-bottom:40px;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo img {
+    max-width: 100%;
+    max-height: 60px;
+    object-fit: contain;
 }
 
 .menu a{
@@ -170,13 +180,23 @@ table td{
 <div class="sidebar">
 
     <div class="logo">
-        MYEGO
+        <?php
+        $logo_files = glob('uploads/logo_app.*');
+        $logo_exists = !empty($logo_files);
+        $logo_path = $logo_exists ? $logo_files[0] : '';
+        if ($logo_exists):
+        ?>
+            <img src="<?php echo $logo_path; ?>?v=<?php echo filemtime($logo_path); ?>" alt="Logo">
+        <?php else: ?>
+            MYEGO
+        <?php endif; ?>
     </div>  
 
     <div class="menu">
         <a href="index.php" class="active">🏠 Dashboard</a>
         <a href="katalog.php">📦 Katalog Parfum</a>
         <a href="laporan.php">📊 Laporan Pemasukan</a>
+        <a href="logo.php">🖼️ Pengaturan Logo</a>
     </div>
 
 </div>

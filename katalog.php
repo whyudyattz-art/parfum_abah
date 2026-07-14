@@ -21,7 +21,8 @@ $data_parfum = mysqli_query($koneksi, "SELECT * FROM parfum ORDER BY id DESC");
 *{ margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
 body{ background:#f5f7fb; }
 .sidebar{ position:fixed; width:250px; height:100vh; background:linear-gradient(180deg,#111,#222); color:white; padding:20px; }
-.logo{ text-align:center; font-size:28px; font-weight:bold; color:gold; margin-bottom:40px; }
+.logo{ text-align:center; font-size:28px; font-weight:bold; color:gold; margin-bottom:40px; min-height: 60px; display: flex; align-items: center; justify-content: center; }
+.logo img { max-width: 100%; max-height: 60px; object-fit: contain; }
 .menu a{ display:block; color:white; text-decoration:none; padding:12px; margin-bottom:10px; border-radius:8px; transition:.3s; }
 .menu a:hover{ background:gold; color:black; }
 .menu a.active{ background:gold; color:black; }
@@ -129,11 +130,23 @@ body{ background:#f5f7fb; }
 <body>
 
 <div class="sidebar">
-    <div class="logo">MYEGO</div>
+    <div class="logo">
+        <?php
+        $logo_files = glob('uploads/logo_app.*');
+        $logo_exists = !empty($logo_files);
+        $logo_path = $logo_exists ? $logo_files[0] : '';
+        if ($logo_exists):
+        ?>
+            <img src="<?php echo $logo_path; ?>?v=<?php echo filemtime($logo_path); ?>" alt="Logo">
+        <?php else: ?>
+            MYEGO
+        <?php endif; ?>
+    </div>
     <div class="menu">
         <a href="index.php">🏠 Dashboard</a>
         <a href="katalog.php" class="active">📦 Katalog Parfum</a>
         <a href="laporan.php">📊 Laporan Pemasukan</a>
+        <a href="logo.php">🖼️ Pengaturan Logo</a>
     </div>
 </div>
 
