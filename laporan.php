@@ -99,10 +99,11 @@ table td{ padding:12px; border-bottom:1px solid #ddd; }
         <?php endif; ?>
     </div>
     <div class="menu">
-        <a href="index.php">🏠 Dashboard</a>
+        <a href="admin.php">🏠 Dashboard</a>
         <a href="katalog.php">📦 Katalog Parfum</a>
         <a href="laporan.php" class="active">📊 Laporan Pemasukan</a>
         <a href="logo.php">🖼️ Pengaturan Logo</a>
+        <a href="transaksi.php">🛒 Transaksi Masuk</a>
     </div>
 </div>
 

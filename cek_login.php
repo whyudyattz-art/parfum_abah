@@ -12,7 +12,7 @@ $cek = mysqli_num_rows($data);
 if($cek > 0){
     $_SESSION['admin'] = $username;
     $_SESSION['status'] = "login";
-    header("location:index.php");
+    header("location:admin.php");
 }else{
     header("location:login.php");
 }

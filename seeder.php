@@ -63,5 +63,5 @@ if ($inserted_count > 0) {
     echo "⚠️ Semua data parfum tersebut sudah ada di database (tidak ada penambahan data baru).<br>";
 }
 
-echo "<br><br><a href='index.php' style='padding: 10px 15px; background: #28a745; color: white; text-decoration: none; border-radius: 5px;'>Kembali ke Dashboard</a>";
+echo "<br><br><a href='admin.php' style='padding: 10px 15px; background: #28a745; color: white; text-decoration: none; border-radius: 5px;'>Kembali ke Dashboard</a>";
 ?>

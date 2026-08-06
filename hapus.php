@@ -34,21 +34,21 @@ if(isset($_GET['id'])){
         echo "
         <script>
             alert('Data parfum berhasil dihapus');
-            window.location='index.php';
+            window.location='admin.php';
         </script>
         ";
     }else{
         echo "
         <script>
             alert('Gagal menghapus data');
-            window.location='index.php';
+            window.location='admin.php';
         </script>
         ";
     }
 
 }else{
 
-    header("Location: index.php");
+    header("Location: admin.php");
     exit();
 
 }

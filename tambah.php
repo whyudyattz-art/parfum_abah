@@ -75,7 +75,7 @@ if(isset($_POST['simpan'])){
         echo "
         <script>
             alert('Produk parfum berhasil ditambahkan');
-            window.location='index.php';
+            window.location='admin.php';
         </script>
         ";
     }else{
@@ -234,7 +234,7 @@ input:focus{
 
         </form>
 
-        <a href="index.php" class="btn-kembali">
+        <a href="admin.php" class="btn-kembali">
             ← Kembali ke Dashboard
         </a>
 

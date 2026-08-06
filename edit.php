@@ -98,7 +98,7 @@ if(isset($_POST['update'])){
         echo "
         <script>
             alert('Data berhasil diperbarui');
-            window.location='index.php';
+            window.location='admin.php';
         </script>
         ";
     }else{
@@ -266,7 +266,7 @@ input:focus{
 
         </form>
 
-        <a href="index.php" class="btn-kembali">
+        <a href="admin.php" class="btn-kembali">
             ← Kembali ke Dashboard
         </a>
 

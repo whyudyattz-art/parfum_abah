@@ -4,7 +4,7 @@ include 'koneksi.php';
 
 // Jika sudah login, langsung ke dashboard
 if(isset($_SESSION['admin'])){
-    header("Location: index.php");
+    header("Location: admin.php");
     exit();
 }
 
@@ -21,7 +21,7 @@ if(isset($_POST['login'])){
 
         $_SESSION['admin'] = $username;
 
-        header("Location: index.php");
+        header("Location: admin.php");
         exit();
 
     } else {

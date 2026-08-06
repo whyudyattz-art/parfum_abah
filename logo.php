@@ -312,10 +312,11 @@ input[type="file"]{
     </div>
     
     <div class="menu">
-        <a href="index.php">🏠 Dashboard</a>
+        <a href="admin.php">🏠 Dashboard</a>
         <a href="katalog.php">📦 Katalog Parfum</a>
         <a href="laporan.php">📊 Laporan Pemasukan</a>
         <a href="logo.php" class="active">🖼️ Pengaturan Logo</a>
+        <a href="transaksi.php">🛒 Transaksi Masuk</a>
     </div>
 </div>
 
@@ -342,25 +343,25 @@ input[type="file"]{
                 <?php endif; ?>
             </div>
 
-            <form action="" method="POST" enctype="multipart/form-data">
+            <form action="" method="POST" enctype="multipart/form-data" style="margin-bottom: 15px;">
                 <div class="form-group">
                     <label>Pilih File Logo Baru</label>
-                    <input type="file" name="logo_file" accept="image/*" required>
+                    <input type="file" name="logo_file" accept="image/*">
                     <small style="color:#666; font-size: 12px; display: block; margin-top: 5px;">Format yang didukung: JPG, JPEG, PNG, WEBP. Ukuran file maksimal 2MB.</small>
                 </div>
 
-                <div class="btn-group">
-                    <button type="submit" name="upload_logo" class="btn btn-upload">
-                        Simpan Logo Baru
-                    </button>
-                    
-                    <?php if ($logo_exists): ?>
-                        <button type="submit" name="delete_logo" class="btn btn-delete" onclick="return confirm('Apakah Anda yakin ingin menghapus logo kustom dan kembali menggunakan teks default?')">
-                            Hapus & Reset
-                        </button>
-                    <?php endif; ?>
-                </div>
+                <button type="submit" name="upload_logo" class="btn btn-upload" style="width: 100%;">
+                    Simpan Logo Baru
+                </button>
             </form>
+            
+            <?php if ($logo_exists): ?>
+                <form action="" method="POST">
+                    <button type="submit" name="delete_logo" class="btn btn-delete" style="width: 100%;" onclick="return confirm('Apakah Anda yakin ingin menghapus logo kustom dan kembali menggunakan teks default?')">
+                        Hapus & Reset Logo
+                    </button>
+                </form>
+            <?php endif; ?>
         </div>
     </div>
 </div>
